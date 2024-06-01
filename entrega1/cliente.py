@@ -19,6 +19,6 @@ class udpCliente():
                     data, fonte = self.socket.recvfrom(self, maxBuff)
                 except: 
                     continue
-            def send(self, end_servidor, porta_servidor, msg):
+            def send(self, end_servidor: tuple[str ,str ], msg: str):
                 self.socket.sendto(msg,end_servidor,porta_servidor)
                 time.sleep(0.001)

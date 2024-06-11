@@ -1,6 +1,6 @@
 # Infra-Com
 
-Respositório do projeto da cadeira de Infraestrutura de Comunicação
+Repositório do projeto da cadeira de Infraestrutura de Comunicação
 
 ## Equipe
 

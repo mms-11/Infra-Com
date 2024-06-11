@@ -20,7 +20,7 @@ Respositorio do projeto da cadeira de Infraestrutura de Comunicação
 1. Na pasta raiz do projeto execute: ```python3 src/client.py```
 2. Digite o nome do arquivo que deseja enviar
     - Os arquivos disponiveis para o envio então na pasta ```file/send```
-    - Disponiblizamos tres arquivos (test.png, test.txt e test.pdf)
+    - Disponibilizamos três arquivos (test.png, test.txt e test.pdf)
 3. Após execução o client será encerrado, caso queira enviar outro arquivo execute os passo 1 e 2 novamente.
 
 ### Verificar reenvio:

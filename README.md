@@ -1,6 +1,6 @@
 # Infra-Com
 
-Respositorio do projeto da cadeira de Infraestrutura de Comunicação
+Respositório do projeto da cadeira de Infraestrutura de Comunicação
 
 ## Equipe
 
@@ -14,14 +14,14 @@ Respositorio do projeto da cadeira de Infraestrutura de Comunicação
 
 ### Rodar o servidor
 1. Na pasta raiz do projeto execute: ```python3 src/server.py```
-2. Após execução o servidor será encerrado, caso queira enviar outro arquivo execute o passo 1 novamente.
+2. Após a execução, o servidor será encerrado e caso queira enviar outro arquivo, execute o passo 1 novamente.
 
 ### Rodar o client:
 1. Na pasta raiz do projeto execute: ```python3 src/client.py```
 2. Digite o nome do arquivo que deseja enviar
-    - Os arquivos disponiveis para o envio então na pasta ```file/send```
+    - Os arquivos disponíveis para o envio então na pasta ```file/send```
     - Disponibilizamos três arquivos (test.png, test.txt e test.pdf)
-3. Após execução o client será encerrado, caso queira enviar outro arquivo execute os passo 1 e 2 novamente.
+3. Após a execução, o client será encerrado e caso queira enviar outro arquivo, execute os passos 1 e 2 novamente.
 
 ### Verificar reenvio:
 1. Os arquivos recebidos pelo server estarão na pasta ```file/received/server```

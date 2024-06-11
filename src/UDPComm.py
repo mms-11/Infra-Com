@@ -2,8 +2,8 @@ import socket
 
 bufferSize = 1024
 
-dirPrefixSend = "../files/send/"
-dirPrefixReceive = "../files/received/"
+dirPrefixSend = "files/send/"
+dirPrefixReceive = "files/received/"
 
 class UDPComm:
     def __init__(self, function='client'):

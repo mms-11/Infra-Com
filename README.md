@@ -31,10 +31,10 @@ WIP
 ### Rodar o client:
 1. Na pasta raiz do projeto execute: ```python3 entrega1/client.py```
 2. Digite o nome do arquivo que deseja enviar
-    - Os arquivos disponíveis para o envio então na pasta ```entrega1/file/send```
+    - Os arquivos disponíveis para o envio então na pasta ```entrega1/files/send```
     - Disponibilizamos três arquivos (test.png, test.txt e test.pdf)
 3. Após a execução, o client será encerrado e caso queira enviar outro arquivo, execute os passos 1 e 2 novamente.
 
 ### Verificar reenvio:
-1. Os arquivos recebidos pelo server estarão na pasta ```entrega1/file/received/server```
-2. Os arquivos reenviados do server para o client estarão na pasta ```entrega1/file/received/client```
+1. Os arquivos recebidos pelo server estarão na pasta ```entrega1/files/received/server```
+2. Os arquivos reenviados do server para o client estarão na pasta ```entrega1/files/received/client```

@@ -10,14 +10,26 @@ Repositório do projeto da cadeira de Infraestrutura de Comunicação
 - Victor Mendonça Aguiar (vma3)
 - Vítor Manoel de Melo Silva (vmms)
 
-# Instruções
+# Instruções para a terceira entrega
+
+WIP
+
+# Instruções para a segunda entrega
 
 ### Rodar o servidor
-1. Na pasta raiz do projeto execute: ```python3 src/server.py```
+1. Na pasta raiz do projeto execute: ```python3 entrega2/server.py```
+
+### Rodar o client:
+1. Na pasta raiz do projeto execute: ```python3 entrega2/client.py```
+
+# Instruções para a primeira entrega
+
+### Rodar o servidor
+1. Na pasta raiz do projeto execute: ```python3 entrega1/server.py```
 2. Após a execução, o servidor será encerrado e caso queira enviar outro arquivo, execute o passo 1 novamente.
 
 ### Rodar o client:
-1. Na pasta raiz do projeto execute: ```python3 src/client.py```
+1. Na pasta raiz do projeto execute: ```python3 entrega1/client.py```
 2. Digite o nome do arquivo que deseja enviar
     - Os arquivos disponíveis para o envio então na pasta ```file/send```
     - Disponibilizamos três arquivos (test.png, test.txt e test.pdf)

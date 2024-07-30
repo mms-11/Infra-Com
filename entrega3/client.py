@@ -1,8 +1,18 @@
 from RDTUtils import *
 
 def main():
-    server = Server(8081)
-    server.send("ahr", ("127.0.0.1",8080))
+    running = True
+    print("Inicializando cliente...")
+    client = Client()
+    while running:
+        command = input()
+        client.send(command)
+        output = client.receive()
+        if(output == "INVALID COMMAND"):
+            print("Comando invalido!")
+        elif(output != "COMMAND DONE"): # indicador de sucesso para comandos sem output
+            print(output)
+    client.close()
 
 if __name__ == "__main__":
     main()

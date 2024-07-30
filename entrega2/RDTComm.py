@@ -45,7 +45,7 @@ class RDTComm:
                     break
 
                 # molda o pacote no formato (numero de sequência, payload)
-                datapacket = seqnum.to_bytes() + data
+                datapacket = seqnum.to_bytes(1,'big') + data
 
                 if self.function == 'server':
                     while True:
@@ -58,7 +58,7 @@ class RDTComm:
 
                         try:
                             ack, server = self.UDPSocket.recvfrom(4)
-                            if ack == b'ACK'+seqnum.to_bytes():
+                            if ack == b'ACK'+seqnum.to_bytes(1,'big'):
                                 print(f"ACK{seqnum} recebido corretamente pelo servidor.")
                                 break
                             else:
@@ -78,7 +78,7 @@ class RDTComm:
 
                         try:
                             ack, server = self.UDPSocket.recvfrom(4)
-                            if ack == b'ACK'+seqnum.to_bytes():
+                            if ack == b'ACK'+seqnum.to_bytes(1,'big'):
                                 print(f"ACK{seqnum} recebido corretamente pelo cliente.")
                                 break
                             else:
@@ -125,14 +125,14 @@ class RDTComm:
                         if simulate_packet_loss():
                             print(f"ACK{seqnum} enviado pelo servidor perdido (simulado).")
                         else:
-                            self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(), self.addrRecv)
+                            self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), self.addrRecv)
                             print(f"ACK{seqnum} enviado pelo servidor")
                         seqnum = (seqnum + 1) % 2
                     else: 
                         if simulate_packet_loss():
                             print(f"ACK{seqnum} enviado pelo servidor perdido (simulado).")
                         else:
-                            self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(), self.addrRecv)
+                            self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(1,'big'), self.addrRecv)
                             print(f"ACK{(seqnum+1)%2} enviado pelo servidor")
                         continue
 
@@ -156,7 +156,7 @@ class RDTComm:
                         if simulate_packet_loss():
                             print(f"ACK{seqnum} enviado pelo cliente perdido (simulado).")
                         else:
-                            self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(), (self.host, self.port))
+                            self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), (self.host, self.port))
                             print(f"ACK{seqnum} enviado pelo cliente")
                         seqnum = (seqnum + 1) % 2
                     else: 
@@ -164,7 +164,7 @@ class RDTComm:
                         if simulate_packet_loss():
                             print(f"ACK{(seqnum+1)%2} enviado pelo cliente perdido (simulado).")
                         else:
-                            self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(), (self.host, self.port))
+                            self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(1,'big'), (self.host, self.port))
                             print(f"ACK{(seqnum+1)%2} enviado pelo cliente")
                         continue
 

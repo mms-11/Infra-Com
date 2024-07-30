@@ -1,5 +1,4 @@
 import socket
-import time
 import random
 
 bufferSize = 1024
@@ -47,26 +46,23 @@ class RDTComm:
 
                 # molda o pacote no formato (numero de sequência, payload)
                 datapacket = seqnum.to_bytes() + data
-                
-                #print(f"Enviando: {data}")
 
                 if self.function == 'server':
                     while True:
 
                         if simulate_packet_loss():
-                            print("Pacote enviado pelo servidor perdido (simulado).")
+                            print(f"Pacote enviado com num. de seq. {seqnum} pelo servidor perdido (simulado).")
                         else:
                             self.UDPSocket.sendto(datapacket, self.addrRecv)
-                            print("Pacote de dados enviado pelo servidor")
+                            print(f"Pacote de dados com num. de seq. {seqnum} enviado pelo servidor")
 
                         try:
                             ack, server = self.UDPSocket.recvfrom(4)
-                            #print(f"Recebido: {ack}")
                             if ack == b'ACK'+seqnum.to_bytes():
-                                print("ACK recebido corretamente pelo servidor.")
+                                print(f"ACK{seqnum} recebido corretamente pelo servidor.")
                                 break
                             else:
-                                print("ACK duplicado recebido pelo servidor, reenviando pacote...")
+                                print(f"ACK{seqnum} duplicado recebido pelo servidor, reenviando pacote...")
                                 continue
                         except socket.timeout:
                             print("Timeout, reenviando pacote...")
@@ -75,19 +71,18 @@ class RDTComm:
                     while True:
 
                         if simulate_packet_loss():
-                            print("Pacote enviado pelo cliente perdido (simulado).")
+                            print(f"Pacote enviado com num. de seq. {seqnum} pelo cliente perdido (simulado).")
                         else:
                             self.UDPSocket.sendto(datapacket, (self.host, self.port))
-                            print("Pacote de dados enviado pelo cliente")
+                            print(f"Pacote de dados com num. de seq. {seqnum} enviado pelo cliente")
 
                         try:
                             ack, server = self.UDPSocket.recvfrom(4)
-                            #print(f"Recebido: {ack}")
                             if ack == b'ACK'+seqnum.to_bytes():
-                                print("ACK recebido corretamente pelo cliente.")
+                                print(f"ACK{seqnum} recebido corretamente pelo cliente.")
                                 break
                             else:
-                                print("ACK duplicado recebido pelo cliente, reenviando pacote...")
+                                print(f"ACK{seqnum} duplicado recebido pelo cliente, reenviando pacote...")
                                 continue
 
                         except socket.timeout:
@@ -128,14 +123,14 @@ class RDTComm:
 
                     if(packetseqnum == seqnum):
                         if simulate_packet_loss():
-                            print("ACK enviado pelo servidor perdido (simulado).")
+                            print(f"ACK{seqnum} enviado pelo servidor perdido (simulado).")
                         else:
                             self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(), self.addrRecv)
                             print(f"ACK{seqnum} enviado pelo servidor")
                         seqnum = (seqnum + 1) % 2
                     else: 
                         if simulate_packet_loss():
-                            print("ACK enviado pelo servidor perdido (simulado).")
+                            print(f"ACK{seqnum} enviado pelo servidor perdido (simulado).")
                         else:
                             self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(), self.addrRecv)
                             print(f"ACK{(seqnum+1)%2} enviado pelo servidor")
@@ -159,14 +154,15 @@ class RDTComm:
 
                     if(packetseqnum == seqnum):
                         if simulate_packet_loss():
-                            print("ACK enviado pelo cliente perdido (simulado).")
+                            print(f"ACK{seqnum} enviado pelo cliente perdido (simulado).")
                         else:
                             self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(), (self.host, self.port))
                             print(f"ACK{seqnum} enviado pelo cliente")
                         seqnum = (seqnum + 1) % 2
                     else: 
+                        print(f"Pacote de dados duplicado recebido, reenviando ACK{(seqnum+1)%2}...")
                         if simulate_packet_loss():
-                            print("ACK enviado pelo cliente perdido (simulado).")
+                            print(f"ACK{(seqnum+1)%2} enviado pelo cliente perdido (simulado).")
                         else:
                             self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(), (self.host, self.port))
                             print(f"ACK{(seqnum+1)%2} enviado pelo cliente")

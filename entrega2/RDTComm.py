@@ -134,7 +134,8 @@ class RDTComm:
                             self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), self.addrRecv)
                             print(f"ACK{seqnum} enviado pelo servidor")
                         seqnum = (seqnum + 1) % 2
-                    else: 
+                    else:
+                        print(f"Pacote de dados duplicado recebido, reenviando ACK{(seqnum+1)%2}...") 
                         if simulate_packet_loss():
                             print(f"ACK{seqnum} enviado pelo servidor perdido (simulado).")
                         else:

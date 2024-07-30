@@ -1,44 +1,30 @@
 import socket
 import random
-import os
-from pathlib import Path
-
-directory = Path(os.path.dirname(__file__)).as_posix() + '/'
 
 bufferSize = 1024
 timeout = 0.1 # em segundos
-error_chance = 10 # em %
 
-dirPrefixSend = "files/send/"
-dirPrefixReceive = "files/received/"
+#baseado em RDTComm, modificada para o uso na entrega3
+#ao invés de utilizar arquivos, apenas obtem variaveis
 
-def simulate_packet_loss():
-    pick = random.choice(range(100))
-    if(pick < error_chance): return True
-    else: return False
-
-#baseado em UDPComm, implementa a lógica do rdt3.0
-
-class RDTComm:
-    def __init__(self, function='client'):
+class RDTServer:
+    def __init__(self):
         self.host = '127.0.0.1'  # Endereço IP do servidor
         self.port = 8080       # Porta do servidor
-        self.function = function
 
         # Criação do socket UDP
         self.UDPSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.UDPSocket.settimeout(timeout)
 
-        if function == 'server':
-            self.UDPSocket.bind((self.host, self.port))
-            print("Servidor UDP com RDT3.0 iniciado.")
+        self.UDPSocket.bind((self.host, self.port))
+        print("Servidor UDP com RDT3.0 iniciado.")
 
-    def sendFile(self, fileName):
+    def send(self, fileName):
         # Envia o arquivo em pacotes
         if self.function == 'server':
-            fileName = directory + dirPrefixReceive + "server/new_" + fileName
+            fileName = dirPrefixReceive + "server/new_" + fileName
         else:
-            fileName = directory + dirPrefixSend + fileName
+            fileName = dirPrefixSend + fileName
 
         seqnum = 1
         with open(fileName, 'rb') as f:
@@ -54,11 +40,8 @@ class RDTComm:
                 if self.function == 'server':
                     while True:
 
-                        if simulate_packet_loss():
-                            print(f"Pacote enviado com num. de seq. {seqnum} pelo servidor perdido (simulado).")
-                        else:
-                            self.UDPSocket.sendto(datapacket, self.addrRecv)
-                            print(f"Pacote de dados com num. de seq. {seqnum} enviado pelo servidor")
+                        self.UDPSocket.sendto(datapacket, self.addrRecv)
+                        print(f"Pacote de dados com num. de seq. {seqnum} enviado pelo servidor")
 
                         try:
                             ack, server = self.UDPSocket.recvfrom(4)
@@ -74,11 +57,8 @@ class RDTComm:
                 else:
                     while True:
 
-                        if simulate_packet_loss():
-                            print(f"Pacote enviado com num. de seq. {seqnum} pelo cliente perdido (simulado).")
-                        else:
-                            self.UDPSocket.sendto(datapacket, (self.host, self.port))
-                            print(f"Pacote de dados com num. de seq. {seqnum} enviado pelo cliente")
+                        self.UDPSocket.sendto(datapacket, (self.host, self.port))
+                        print(f"Pacote de dados com num. de seq. {seqnum} enviado pelo cliente")
 
                         try:
                             ack, server = self.UDPSocket.recvfrom(4)
@@ -95,22 +75,13 @@ class RDTComm:
         
         print(f"Arquivo {fileName} enviado.")
 
-    def sendFileName(self, fileName):
-        # Envia o nome do arquivo para o servidor
-        if self.function == 'server':
-            self.UDPSocket.sendto(fileName.encode(), self.addrRecv)
-            print(f"Nome do arquivo {fileName} enviado.")
-        else:
-            self.UDPSocket.sendto(fileName.encode(), (self.host, self.port))
-            print(f"Nome do arquivo {fileName} enviado.")
-
-    def receiveFile(self, fileName):
-        # Recebe o arquivo modificado de volta
+    def receive(self, fileName):
+        # recebe 
 
         if self.function == 'server':
-            new_file_name = directory + dirPrefixReceive + "server/new_" + fileName
+            new_file_name = dirPrefixReceive + "server/new_" + fileName
         else:
-            new_file_name = directory + dirPrefixReceive + "client/new_" + fileName
+            new_file_name = dirPrefixReceive + "client/new_" + fileName
 
         seqnum = 0
         with open(new_file_name, 'wb') as f:
@@ -126,18 +97,12 @@ class RDTComm:
                     packetseqnum, data = datapacket[0], datapacket[1:] # divide o pacote (seq,payload) em seus dois componentes
 
                     if(packetseqnum == seqnum):
-                        if simulate_packet_loss():
-                            print(f"ACK{seqnum} enviado pelo servidor perdido (simulado).")
-                        else:
-                            self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), self.addrRecv)
-                            print(f"ACK{seqnum} enviado pelo servidor")
+                        self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), self.addrRecv)
+                        print(f"ACK{seqnum} enviado pelo servidor")
                         seqnum = (seqnum + 1) % 2
                     else: 
-                        if simulate_packet_loss():
-                            print(f"ACK{seqnum} enviado pelo servidor perdido (simulado).")
-                        else:
-                            self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(1,'big'), self.addrRecv)
-                            print(f"ACK{(seqnum+1)%2} enviado pelo servidor")
+                        self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(1,'big'), self.addrRecv)
+                        print(f"ACK{(seqnum+1)%2} enviado pelo servidor")
                         continue
 
                     if not data:
@@ -157,19 +122,13 @@ class RDTComm:
                     packetseqnum, data = datapacket[0], datapacket[1:] # divide o pacote (seq,payload) em seus dois componentes
 
                     if(packetseqnum == seqnum):
-                        if simulate_packet_loss():
-                            print(f"ACK{seqnum} enviado pelo cliente perdido (simulado).")
-                        else:
-                            self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), (self.host, self.port))
-                            print(f"ACK{seqnum} enviado pelo cliente")
+                        self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), (self.host, self.port))
+                        print(f"ACK{seqnum} enviado pelo cliente")
                         seqnum = (seqnum + 1) % 2
                     else: 
                         print(f"Pacote de dados duplicado recebido, reenviando ACK{(seqnum+1)%2}...")
-                        if simulate_packet_loss():
-                            print(f"ACK{(seqnum+1)%2} enviado pelo cliente perdido (simulado).")
-                        else:
-                            self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(1,'big'), (self.host, self.port))
-                            print(f"ACK{(seqnum+1)%2} enviado pelo cliente")
+                        self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(1,'big'), (self.host, self.port))
+                        print(f"ACK{(seqnum+1)%2} enviado pelo cliente")
                         continue
 
                     if not data:
@@ -177,20 +136,8 @@ class RDTComm:
                     f.write(data)
                     if len(data) < bufferSize-1:
                         break
-        if self.function == 'client':
-            print(f"Arquivo modificado {new_file_name} recebido do servidor.")
-        else:
-            print(f"Arquivo modificado {new_file_name} recebido do cliente.")
-
-    def receiveFileName(self):
-        # Recebe o nome do arquivo
-        while True:
-            try:
-                data, addr = self.UDPSocket.recvfrom(bufferSize)
-                self.addrRecv = addr
-                return data.decode()
-            except socket.timeout:
-                continue
+        
+        print(f"Arquivo modificado {new_file_name} recebido do servidor.")
 
     def close(self):
         # Fecha o socket do cliente

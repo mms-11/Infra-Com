@@ -4,6 +4,8 @@ import os
 from pathlib import Path
 
 directory = Path(os.path.dirname(__file__)).as_posix() + '/'
+#tivemos alguns erros de compatibilidade em computadores de alguns membros
+#entao agora estamos usando o caminho absoluto para evitar erros
 
 bufferSize = 1024
 timeout = 0.1 # em segundos

@@ -1,5 +1,8 @@
 import socket
-import random
+import os
+from pathlib import Path
+
+directory = Path(os.path.dirname(__file__)).as_posix() + '/'
 
 bufferSize = 1024
 timeout = 0.1 # em segundos

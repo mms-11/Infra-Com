@@ -100,8 +100,6 @@ def main():
             d = datetime.datetime.strptime(data, '%d/%m/%Y').date()
             diff = (d - d0).days
 
-            cliente_encontrado = False
-
             for cliente in clientes:
                 if cliente[0] == nomeOfertante:  # achado o cliente
                     # agendar na acomodação certa

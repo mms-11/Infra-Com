@@ -4,6 +4,7 @@ def main():
     running = True
     print("Inicializando cliente...")
     client = Client()
+    
     while running:
         command = input()
         client.send(command)
@@ -14,6 +15,7 @@ def main():
             print("Você não está logado!")
         elif(output != "COMMAND DONE"): # indicador de sucesso para comandos sem output
             print(output)
+
     client.close()
 
 if __name__ == "__main__":

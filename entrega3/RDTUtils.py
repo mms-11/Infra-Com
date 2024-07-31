@@ -21,7 +21,7 @@ class Server:
 
         self.UDPSocketR.bind((self.host, self.portr))
         self.UDPSocketS.bind((self.host, self.ports))
-        #print(f"Servidor inicializado nas portas {portr} (R) e {ports} (S).")
+        print(f"Servidor inicializado nas portas {portr} e {ports}.")
 
 
     def send(self, payload: str, addr):
@@ -146,7 +146,7 @@ class Client:
             while True:
                 try:
                     datapacket, addr = self.UDPSocket.recvfrom(bufferSize)
-                    print("Pacote recebido do servidor")
+                    #print("Pacote recebido do servidor")
                     break
                 except socket.timeout: # receptor rdt nao tem timeout
                     continue
@@ -155,11 +155,11 @@ class Client:
 
             if(packetseqnum == seqnum):
                 self.UDPSocket.sendto(b'ACK'+seqnum.to_bytes(1,'big'), addr)
-                print(f"ACK{seqnum} enviado pelo cliente")
+                #print(f"ACK{seqnum} enviado pelo cliente")
                 seqnum = (seqnum + 1) % 2
             else: 
                 self.UDPSocket.sendto(b'ACK'+((seqnum+1)%2).to_bytes(1,'big'), addr)
-                print(f"ACK{(seqnum+1)%2} enviado pelo cliente")
+                #print(f"ACK{(seqnum+1)%2} enviado pelo cliente")
                 continue
 
             if not data:

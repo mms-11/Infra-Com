@@ -10,6 +10,8 @@ def main():
         output = client.receive()
         if(output == "INVALID COMMAND"):
             print("Comando invalido!")
+        elif(output == "NOT LOGGED"):
+            print("Você não está logado!")
         elif(output != "COMMAND DONE"): # indicador de sucesso para comandos sem output
             print(output)
     client.close()

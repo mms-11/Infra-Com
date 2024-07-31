@@ -143,7 +143,7 @@ def main():
                                 server.send("Você não é o dono da reserva")
                             if reserved == True:
                                 acom.agenda[diff] = False
-                                acom.clientes[diff] = ("",("",0))
+                                acom.clientes[diff] = ('',('',0))
                                 server.send(f"[{actual[0]}/{actual[1][0]}:{actual[1][1]}] Reserva cancelada na acomodação de local {acom.lugar}, ID {acom.id} e ofertante {acom.dono[0]} no dia {17+diff}/07/2024", addr)
                             else:
                                 server.send("Acomodação não está reservada", addr)

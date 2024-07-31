@@ -14,12 +14,12 @@ Repositório do projeto da cadeira de Infraestrutura de Comunicação
 
 ### Rodar o servidor
 1. Na pasta raiz do projeto, execute ```python3 entrega3/server.py```
-2. WIP
+2. Será indicado que o servidor foi inicializado no terminal, estando funcional.
 
 ### Rodar uma instância do client
 
 1. Na pasta raiz do projeto, execute: ```python3 entrega3/client.py```
-2. WIP
+2. Após isso, já é possível inserir os comandos indicados na documentação.
 
 # Instruções para a segunda entrega
 
